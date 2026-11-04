@@ -1,0 +1,381 @@
+<Window x:Class="RestaurantApp.Views.SalesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Продажі"
+        Height="800"
+        Width="1400"
+        MinHeight="700"
+        MinWidth="1150"
+        Background="#E5EBF3"
+        WindowStartupLocation="CenterScreen">
+
+
+<Window.Resources>
+
+    <Style x:Key="NavButtonStyle" TargetType="Button">
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="Margin" Value="8,4"/>
+        <Setter Property="Padding" Value="15,0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="#DCE7F5"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Cursor" Value="Hand"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="ButtonBorder"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="7"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ButtonBorder"
+                                    Property="Background"
+                                    Value="#29496D"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ActionButtonStyle" TargetType="Button">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="MinWidth" Value="105"/>
+        <Setter Property="Padding" Value="15,0"/>
+        <Setter Property="Margin" Value="0,0,10,0"/>
+        <Setter Property="Background" Value="#1769AA"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <Style TargetType="TextBox">
+        <Setter Property="Height" Value="38"/>
+        <Setter Property="Padding" Value="9,7"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="BorderBrush" Value="#C5D4E6"/>
+        <Setter Property="Background" Value="#FFFFFF"/>
+    </Style>
+
+    <Style TargetType="ComboBox">
+        <Setter Property="Height" Value="38"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="BorderBrush" Value="#C5D4E6"/>
+        <Setter Property="Background" Value="#FFFFFF"/>
+    </Style>
+
+    <Style TargetType="DatePicker">
+        <Setter Property="Height" Value="38"/>
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+
+    <Style TargetType="DataGrid">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="#183451"/>
+        <Setter Property="BorderBrush" Value="#D2DDEA"/>
+        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="#E1E8F1"/>
+        <Setter Property="VerticalGridLinesBrush" Value="#E1E8F1"/>
+        <Setter Property="RowHeight" Value="39"/>
+        <Setter Property="ColumnHeaderHeight" Value="42"/>
+        <Setter Property="AlternatingRowBackground" Value="#F4F7FB"/>
+        <Setter Property="CanUserResizeRows" Value="False"/>
+    </Style>
+
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="#E6EDF6"/>
+        <Setter Property="Foreground" Value="#173454"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Padding" Value="10,0"/>
+        <Setter Property="BorderBrush" Value="#D2DDEA"/>
+    </Style>
+
+</Window.Resources>
+
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="245"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Бокова панель -->
+
+        <Border Grid.Column="0"
+                Background="#172D49">
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="65"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="65"/>
+                </Grid.RowDefinitions>
+
+                <!-- Логотип -->
+
+                <Border Grid.Row="0"
+                        Background="#12253D">
+
+                    <TextBlock Text="  🍴  RestaurantApp"
+                               Foreground="White"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"
+                               Margin="12,0"/>
+                </Border>
+
+                <!-- Навігація -->
+
+                <StackPanel Grid.Row="1"
+                            Margin="5,15,5,0">
+
+                    <Button Content="⌂    Головна"
+                            Style="{StaticResource NavButtonStyle}"
+                            Click="HomeButton_Click"/>
+
+                    <Button Content="♟    Працівники"
+                            Style="{StaticResource NavButtonStyle}"
+                            Click="EmployeesButton_Click"/>
+
+                    <Button Content="♨    Страви"
+                            Style="{StaticResource NavButtonStyle}"
+                            Click="MenuButton_Click"/>
+
+                    <Button Content="◆    Інгредієнти"
+                            Style="{StaticResource NavButtonStyle}"
+                            Click="IngredientButton_Click"/>
+
+                    <Button Content="▤    Рецепти"
+                            Style="{StaticResource NavButtonStyle}"
+                            Click="RecipeButton_Click"/>
+
+                    <Button Content="₴    Продажі"
+                            Background="#1769AA"
+                            Style="{StaticResource NavButtonStyle}"
+                            Click="SalesButton_Click"/>
+
+                    <Button Content="%    Аналітика"
+                            Style="{StaticResource NavButtonStyle}"
+                            Click="AnalyticsButton_Click"/>
+
+                </StackPanel>
+
+            </Grid>
+        </Border>
+
+        <!-- Робоча область -->
+
+        <Grid Grid.Column="1"
+              Margin="25,20,25,22">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок -->
+
+            <Grid Grid.Row="0"
+                  Margin="0,0,0,22">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+
+                    <TextBlock Text="Продажі"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="#173454"/>
+
+                    <TextBlock Text="Керування продажами ресторану"
+                               FontSize="14"
+                               Foreground="#71839A"
+                               Margin="0,5,0,0"/>
+
+                </StackPanel>
+            </Grid>
+
+            <!-- Форма продажу -->
+
+            <Border Grid.Row="1"
+                    Background="#FFFFFF"
+                    BorderBrush="#D5E0ED"
+                    BorderThickness="1"
+                    CornerRadius="9"
+                    Padding="20"
+                    Margin="0,0,0,14">
+
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="55"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Страва -->
+
+                    <TextBlock Text="Страва:"
+                               VerticalAlignment="Center"
+                               Foreground="#173454"
+                               FontWeight="SemiBold"/>
+
+                    <ComboBox x:Name="DishComboBox"
+                              Grid.Column="1"
+                              Height="34"
+                              VerticalAlignment="Center"
+                              DisplayMemberPath="DishName"
+                              ToolTip="Оберіть страву"/>
+
+                    <!-- Дата -->
+
+                    <TextBlock Text="Дата:"
+                               Grid.Column="2"
+                               Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Foreground="#173454"
+                               FontWeight="SemiBold"/>
+
+                    <DatePicker x:Name="SaleDatePicker"
+                                Grid.Column="3"
+                                Height="34"
+                                VerticalAlignment="Center"/>
+
+                    <!-- Заготовки -->
+
+                    <TextBlock Text="Заготовки:"
+                               Grid.Row="1"
+                               VerticalAlignment="Center"
+                               Foreground="#173454"
+                               FontWeight="SemiBold"/>
+
+                    <TextBox x:Name="BlanksTextBox"
+                             Grid.Row="1"
+                             Grid.Column="1"
+                             Height="34"
+                             VerticalContentAlignment="Center"
+                             VerticalAlignment="Center"
+                             ToolTip="Введіть кількість заготовок"/>
+
+                    <!-- Продані порції -->
+
+                    <TextBlock Text="Продані порції:"
+                               Grid.Row="1"
+                               Grid.Column="2"
+                               Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Foreground="#173454"
+                               FontWeight="SemiBold"/>
+
+                    <TextBox x:Name="PortionsSoldTextBox"
+                             Grid.Row="1"
+                             Grid.Column="3"
+                             Height="34"
+                             VerticalContentAlignment="Center"
+                             VerticalAlignment="Center"
+                             ToolTip="Введіть кількість проданих порцій"/>
+
+                    <!-- Кнопки -->
+
+                    <StackPanel Grid.Row="2"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="3"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center">
+
+                        <Button x:Name="AddButton"
+                                Content="＋  Додати"
+                                Style="{StaticResource ActionButtonStyle}"
+                                Click="AddButton_Click"/>
+
+                        <Button x:Name="UpdateButton"
+                                Content="▣  Зберегти зміни"
+                                Style="{StaticResource ActionButtonStyle}"
+                                Click="UpdateButton_Click"/>
+
+                        <Button x:Name="DeleteButton"
+                                Content="▤  Видалити"
+                                Style="{StaticResource ActionButtonStyle}"
+                                Background="#385675"
+                                Click="DeleteButton_Click"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+            </Border>
+
+            <!-- Таблиця продажів -->
+
+            <Border Grid.Row="2"
+                    Background="White"
+                    BorderBrush="#D5E0ED"
+                    BorderThickness="1"
+                    CornerRadius="9"
+                    Padding="10">
+
+                <DataGrid x:Name="SalesGrid"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserResizeRows="False"
+                          SelectionMode="Single"
+                          SelectionUnit="FullRow"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          SelectionChanged="SalesGrid_SelectionChanged">
+
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn Header="Страва"
+                                            Binding="{Binding DishName}"
+                                            Width="*"/>
+
+                        <DataGridTextColumn Header="Дата"
+                                            Binding="{Binding DateExpense, StringFormat=dd.MM.yyyy}"
+                                            Width="140"/>
+
+                        <DataGridTextColumn Header="Заготовки"
+                                            Binding="{Binding Blanks}"
+                                            Width="130"/>
+
+                        <DataGridTextColumn Header="Продані порції"
+                                            Binding="{Binding PortionsSold}"
+                                            Width="180"/>
+
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+            </Border>
+
+        </Grid>
+
+    </Grid>
+
+</Window>
