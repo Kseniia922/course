@@ -23,7 +23,7 @@ public class AnalyticsService
             JOIN dish d ON e.dish_id = d.dish_id
             JOIN category c ON d.category_id = c.category_id
             GROUP BY c.category_name, d.dish_id, d.dish_name
-            ORDER BY c.category_name, 'Рейтинг';
+            ORDER BY 'Рейтинг' ASC;
             """;
 
         return await GetTableAsync(sql);

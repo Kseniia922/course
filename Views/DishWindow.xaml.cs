@@ -28,8 +28,11 @@ public partial class DishWindow : Window
 
         if (role == "Admin")
         {
+            // Адміністратор не має доступу до продажів.
             SalesNavButton.Visibility = Visibility.Collapsed;
-            AnalyticsNavButton.Visibility = Visibility.Collapsed;
+
+            // Замість аналітики показуємо зміну цін.
+            AnalyticsNavButton.Content = "₴    Зміна цін";
         }
         else if (role == "Chef")
         {
@@ -37,6 +40,8 @@ public partial class DishWindow : Window
             SalesNavButton.Visibility = Visibility.Collapsed;
             AnalyticsNavButton.Visibility = Visibility.Collapsed;
 
+            // Шеф-кухар може переглядати страви,
+            // але не може їх редагувати.
             DishFormBorder.Visibility = Visibility.Collapsed;
         }
     }
@@ -444,7 +449,7 @@ public partial class DishWindow : Window
     {
         string role = AppSession.CurrentUser?.Role ?? "";
 
-        if (role != "Director")
+        if (role != "Director" && role != "Admin")
             return;
 
         var window = new AnalyticsWindow();

@@ -29,10 +29,15 @@ public partial class MainWindow : Window
 
         if (role == "Admin")
         {
+            // Адміністратор може переглядати працівників,
+            // але не може додавати, редагувати або видаляти їх.
             EmployeesFormBorder.Visibility = Visibility.Collapsed;
 
+            // Продажі адміністратору недоступні.
             SalesNavButton.Visibility = Visibility.Collapsed;
-            AnalyticsNavButton.Visibility = Visibility.Collapsed;
+
+            // Замість аналітики показуємо зміну цін.
+            AnalyticsNavButton.Content = "₴    Зміна цін";
         }
         else if (role == "Chef")
         {
@@ -48,7 +53,6 @@ public partial class MainWindow : Window
             Close();
         }
     }
-
     private bool IsDirector()
     {
         return AppSession.CurrentUser?.Role == "Director";

@@ -27,9 +27,12 @@ public partial class DashboardWindow : Window
 
         if (role == "Admin")
         {
+            // Администратор не имеет доступа к продажам
             SalesNavButton.Visibility = Visibility.Collapsed;
-            AnalyticsNavButton.Visibility = Visibility.Collapsed;
             SalesCard.Visibility = Visibility.Collapsed;
+
+            // Вместо аналитики показываем изменение цен
+            AnalyticsNavButton.Content = "₴    Зміна цін";
         }
         else if (role == "Chef")
         {

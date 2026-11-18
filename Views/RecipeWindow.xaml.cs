@@ -19,8 +19,34 @@ public partial class RecipeWindow : Window
         _dishService = new DishService();
         _ingredientService = new IngredientService();
 
+        SetNavigationByRole();
+
         Loaded += RecipeWindow_Loaded;
     }
+
+  private void SetNavigationByRole()
+    {
+        var user = AppSession.CurrentUser;
+
+        if (user == null)
+            return;
+
+        if (user.Role == "Chef")
+        {
+            EmployeesNavButton.Visibility = Visibility.Collapsed;
+            SalesNavButton.Visibility = Visibility.Collapsed;
+            AnalyticsNavButton.Visibility = Visibility.Collapsed;
+        }
+        else if (user.Role == "Admin")
+        {
+            // Адміністратор не має доступу до продажів.
+            SalesNavButton.Visibility = Visibility.Collapsed;
+
+            // Замість аналітики показуємо зміну цін.
+            AnalyticsNavButton.Content = "₴    Зміна цін";
+        }
+    }
+
 
     private async void RecipeWindow_Loaded(
         object sender,
@@ -465,6 +491,11 @@ public partial class RecipeWindow : Window
 
     private void AnalyticsButton_Click(object sender, RoutedEventArgs e)
     {
+        string role = AppSession.CurrentUser?.Role ?? "";
+
+        if (role != "Director" && role != "Admin")
+            return;
+
         var window = new AnalyticsWindow();
         window.Show();
         Close();

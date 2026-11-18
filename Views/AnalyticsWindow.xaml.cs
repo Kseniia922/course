@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using RestaurantApp.Services;
+using RestaurantApp.Models;
 
 namespace RestaurantApp.Views;
 
@@ -15,13 +16,13 @@ public partial class AnalyticsWindow : Window
 
         _analyticsService = new AnalyticsService();
         _categoryService = new CategoryService();
-        // Устанавливаем текущую дату по умолчанию.
+        // Дата за замовченням
         DailySalesDatePicker.SelectedDate = DateTime.Today;
 
         Loaded += AnalyticsWindow_Loaded;
     }
 
-    // Формирование отчёта за выбранный день.
+    // Формування звіту за обрану дату
     private async void DailySalesButton_Click(
         object sender,
         RoutedEventArgs e)
@@ -58,24 +59,65 @@ public partial class AnalyticsWindow : Window
         }
     }
 
-    // Загрузка основных таблиц аналитики.
+    // Основні таблиці аналітики
     private async void AnalyticsWindow_Loaded(
         object sender,
         RoutedEventArgs e)
     {
+        var user = AppSession.CurrentUser;
+
+        // Перевірка доступу до аналітики
+        if (user == null ||
+            (user.Role != "Director" && user.Role != "Admin"))
+        {
+            MessageBox.Show(
+                "У вас немає прав для перегляду цього розділу.",
+                "Доступ заборонено",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+
+            var window = new DashboardWindow();
+            window.Show();
+            Close();
+            return;
+        }
+
+        // Для адміна залишаєио лише зміни цін
+        if (user.Role == "Admin")
+        {
+            PopularDishesTab.Visibility = Visibility.Collapsed;
+            AverageSalesTab.Visibility = Visibility.Collapsed;
+            MonthlySalesTab.Visibility = Visibility.Collapsed;
+            DailySalesTab.Visibility = Visibility.Collapsed;
+            SalesNavButton.Visibility = Visibility.Collapsed;
+
+            AnalyticsTabControl.SelectedItem = PriceChangeTab;
+
+            AnalyticsNavButton.Content = "₴    Зміна цін";
+
+            AnalyticsTitleTextBlock.Text = "Зміна цін";
+            AnalyticsSubtitleTextBlock.Text =
+                "Керування цінами страв за категоріями";
+        }
+
         try
         {
-            PopularDishesGrid.ItemsSource =
-                (await _analyticsService.GetPopularDishesAsync()).DefaultView;
-
-            AverageSalesGrid.ItemsSource =
-                (await _analyticsService.GetAverageSalesAsync()).DefaultView;
-
-            MonthlySalesGrid.ItemsSource =
-                (await _analyticsService.GetMonthlySalesAsync()).DefaultView;
-
+            // Категорії для директора та адміна
             var categories = await _categoryService.GetCategoriesAsync();
             PriceCategoryComboBox.ItemsSource = categories;
+
+            // Звіти тільки для директора
+            if (user.Role == "Director")
+            {
+                PopularDishesGrid.ItemsSource =
+                    (await _analyticsService.GetPopularDishesAsync()).DefaultView;
+
+                AverageSalesGrid.ItemsSource =
+                    (await _analyticsService.GetAverageSalesAsync()).DefaultView;
+
+                MonthlySalesGrid.ItemsSource =
+                    (await _analyticsService.GetMonthlySalesAsync()).DefaultView;
+            }
         }
         catch (Exception ex)
         {
@@ -101,19 +143,26 @@ public partial class AnalyticsWindow : Window
         if (!decimal.TryParse(
                 PricePercentTextBox.Text,
                 out decimal percent) ||
-            percent <= 0 ||
+            percent == 0 ||
+            percent <= -100 ||
             percent > 100)
         {
             MessageBox.Show(
-                "Введіть відсоток від 0 до 100 (не включаючи 0).");
+                "Введіть відсоток від -99.99 до 100 (крім 0).");
             return;
         }
 
         string categoryName =
             PriceCategoryComboBox.SelectedValue.ToString()!;
+        
+        string action = percent > 0
+            ? "Підвищити"
+            : "Знизити";
+        
+        decimal absolutePercent = Math.Abs(percent);
 
         var result = MessageBox.Show(
-            $"Підвищити ціни на {percent}% для категорії «{categoryName}»?",
+            $"{action} ціни на {absolutePercent}% для категорії «{categoryName}»?",
             "Підтвердження",
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);

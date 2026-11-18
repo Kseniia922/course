@@ -71,6 +71,29 @@
             <Setter Property="Cursor" Value="Hand"/>
         </Style>
 
+        <!-- Стиль таблиці -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#183451"/>
+            <Setter Property="BorderBrush" Value="#D2DDEA"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#E1E8F1"/>
+            <Setter Property="VerticalGridLinesBrush" Value="#E1E8F1"/>
+            <Setter Property="RowHeight" Value="39"/>
+            <Setter Property="ColumnHeaderHeight" Value="42"/>
+            <Setter Property="AlternatingRowBackground" Value="#F4F7FB"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+        </Style>
+
+        <!-- Стиль заголовків таблиці -->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#E6EDF6"/>
+            <Setter Property="Foreground" Value="#173454"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="BorderBrush" Value="#D2DDEA"/>
+        </Style>
+
     </Window.Resources>
 
 
@@ -120,7 +143,8 @@
                             Content="⌂    Головна"
                             Click="HomeButton_Click"/>
 
-                    <Button Style="{StaticResource NavButtonStyle}"
+                    <Button x:Name="EmployeesNavButton"
+                            Style="{StaticResource NavButtonStyle}"
                             Content="♟    Працівники"
                             Click="EmployeesButton_Click"/>
 
@@ -137,11 +161,13 @@
                             Content="▤    Рецепти"
                             Click="RecipeButton_Click"/>
 
-                    <Button Style="{StaticResource NavButtonStyle}"
+                    <Button x:Name="SalesNavButton"
+                            Style="{StaticResource NavButtonStyle}"
                             Content="₴    Продажі"
                             Click="SalesButton_Click"/>
 
-                    <Button Style="{StaticResource NavButtonStyle}"
+                    <Button x:Name="AnalyticsNavButton"
+                            Style="{StaticResource NavButtonStyle}"
                             Content="%    Аналітика"
                             Click="AnalyticsButton_Click"/>
 

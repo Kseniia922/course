@@ -8,12 +8,29 @@ namespace RestaurantApp.Views;
 
 public partial class SalesWindow : Window
 {
-    private readonly ExpenseService _expenseService;
-    private readonly DishService _dishService;
+    private readonly ExpenseService _expenseService = null!;
+    private readonly DishService _dishService = null!;
 
     public SalesWindow()
     {
         InitializeComponent();
+
+        // Перевірка прав доступу
+        if (AppSession.CurrentUser == null ||
+            AppSession.CurrentUser.Role != "Director")
+        {
+            MessageBox.Show(
+                "У вас немає прав для перегляду розділу «Продажі».",
+                "Доступ заборонено",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+
+            var window = new DashboardWindow();
+            window.Show();
+
+            Close();
+            return;
+        }
 
         _expenseService = new ExpenseService();
         _dishService = new DishService();

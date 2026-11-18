@@ -150,7 +150,8 @@
 
                     <Button Content="♟    Працівники"
                             Style="{StaticResource NavButtonStyle}"
-                            Click="EmployeesButton_Click"/>
+                            Click="EmployeesButton_Click"
+                            x:Name="EmployeesNavButton"/>
 
                     <Button Content="♨    Страви"
                             Style="{StaticResource NavButtonStyle}"
@@ -167,11 +168,13 @@
 
                     <Button Content="₴    Продажі"
                             Style="{StaticResource NavButtonStyle}"
-                            Click="SalesButton_Click"/>
+                            Click="SalesButton_Click"
+                            x:Name="SalesNavButton"/>
 
                     <Button Content="%    Аналітика"
                             Style="{StaticResource NavButtonStyle}"
-                            Click="AnalyticsButton_Click"/>
+                            Click="AnalyticsButton_Click"
+                            x:Name="AnalyticsNavButton"/>
 
                 </StackPanel>
 

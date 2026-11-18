@@ -165,11 +165,13 @@
                             Content="▤    Рецепти"
                             Click="RecipeButton_Click"/>
 
-                    <Button Style="{StaticResource NavButtonStyle}"
+                    <Button x:Name="SalesNavButton"
+                            Style="{StaticResource NavButtonStyle}"
                             Content="₴    Продажі"
                             Click="SalesButton_Click"/>
 
-                    <Button Style="{StaticResource NavButtonStyle}"
+                    <Button x:Name="AnalyticsNavButton"
+                            Style="{StaticResource NavButtonStyle}"
                             Content="%    Аналітика"
                             Background="#1769AA"
                             Click="AnalyticsButton_Click"/>
@@ -194,12 +196,14 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel>
-                    <TextBlock Text="Аналітика"
+                    <TextBlock x:Name="AnalyticsTitleTextBlock"
+                               Text="Аналітика"
                                FontSize="28"
                                FontWeight="Bold"
                                Foreground="#173454"/>
 
-                    <TextBlock Text="Звіти про продажі та популярність страв"
+                    <TextBlock x:Name="AnalyticsSubtitleTextBlock"
+                               Text="Звіти про продажі та популярність страв"
                                FontSize="14"
                                Foreground="#71839A"
                                Margin="0,5,0,0"/>
@@ -214,11 +218,12 @@
                     CornerRadius="9"
                     Padding="15">
 
-                <TabControl Background="White"
+                <TabControl x:Name="AnalyticsTabControl"
+                            Background="White"
                             BorderThickness="0"
                             FontSize="14">
 
-                    <TabItem Header="Популярні страви">
+                    <TabItem x:Name="PopularDishesTab" Header="Популярні страви">
                         <Grid Margin="5,15,5,5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -237,7 +242,7 @@
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="Середні продажі">
+                    <TabItem x:Name="AverageSalesTab" Header="Середні продажі">
                         <Grid Margin="5,15,5,5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -256,7 +261,7 @@
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="Продажі за місяцями">
+                    <TabItem x:Name="MonthlySalesTab" Header="Продажі за місяцями">
                         <Grid Margin="5,15,5,5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -276,7 +281,7 @@
                     </TabItem>
 
                     
-                    <TabItem Header="Звіт за день">
+                    <TabItem x:Name="DailySalesTab" Header="Звіт за день">
                         <Grid Margin="5,15,5,5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -316,13 +321,13 @@
                     </TabItem>
 
                     
-                    <TabItem Header="Зміна цін">
+                    <TabItem x:Name="PriceChangeTab" Header="Зміна цін">
                         <Grid Margin="20">
                             <StackPanel MaxWidth="500"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Top">
 
-                                <TextBlock Text="Підвищення цін на страви"
+                                <TextBlock Text="Зміна цін на страви"
                                         FontSize="20"
                                         FontWeight="Bold"
                                         Foreground="#173454"
@@ -339,7 +344,7 @@
                                         DisplayMemberPath="CategoryName"
                                         SelectedValuePath="CategoryName"/>
 
-                                <TextBlock Text="Відсоток підвищення ціни:"
+                                <TextBlock Text="Відсоток зміни ціни (+ або -):"
                                         Foreground="#173454"
                                         FontWeight="SemiBold"
                                         Margin="0,5,0,0"/>
@@ -349,7 +354,7 @@
                                         Margin="0,5,0,15"
                                         Text="10"/>
 
-                                <Button Content="Підвищити ціни"
+                                <Button Content="Застосувати зміну"
                                         Style="{StaticResource ActionButtonStyle}"
                                         HorizontalAlignment="Left"
                                         Click="RaisePricesButton_Click"/>

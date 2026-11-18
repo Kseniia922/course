@@ -15,8 +15,31 @@ public partial class IngredientWindow : Window
 
         _ingredientService = new IngredientService();
 
+        SetAccessByRole();
+
         Loaded += IngredientWindow_Loaded;
     }
+
+    private void SetAccessByRole()
+    {
+        string role = AppSession.CurrentUser?.Role ?? "";
+
+        if (role == "Admin")
+        {
+            // Адміністратор не має доступу до продажів.
+            SalesNavButton.Visibility = Visibility.Collapsed;
+
+            // Замість аналітики показуємо зміну цін.
+            AnalyticsNavButton.Content = "₴    Зміна цін";
+        }
+        else if (role == "Chef")
+        {
+            EmployeesNavButton.Visibility = Visibility.Collapsed;
+            SalesNavButton.Visibility = Visibility.Collapsed;
+            AnalyticsNavButton.Visibility = Visibility.Collapsed;
+        }
+    }
+
 
     private async void IngredientWindow_Loaded(
         object sender,
@@ -336,6 +359,11 @@ public partial class IngredientWindow : Window
 
     private void EmployeesButton_Click(object sender, RoutedEventArgs e)
     {
+        string role = AppSession.CurrentUser?.Role ?? "";
+
+        if (role == "Chef")
+            return;
+
         var window = new MainWindow();
         window.Show();
         Close();
@@ -362,13 +390,23 @@ public partial class IngredientWindow : Window
 
     private void SalesButton_Click(object sender, RoutedEventArgs e)
     {
+        string role = AppSession.CurrentUser?.Role ?? "";
+
+        if (role != "Director")
+            return;
+
         var window = new SalesWindow();
         window.Show();
         Close();
     }
 
-        private void AnalyticsButton_Click(object sender, RoutedEventArgs e)
+    private void AnalyticsButton_Click(object sender, RoutedEventArgs e)
     {
+        string role = AppSession.CurrentUser?.Role ?? "";
+
+        if (role != "Director" && role != "Admin")
+            return;
+
         var window = new AnalyticsWindow();
         window.Show();
         Close();
